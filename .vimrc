@@ -1,16 +1,7 @@
-" ## vundle ##
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Specify a directory for plugins 
+call plug#begin('~/.vim/plugged')
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
+call plug#end()
 
 " sensible.vim - Defaults everyone can agree on
 " Maintainer:   Tim Pope <http://tpo.pe/>
@@ -139,26 +130,34 @@ endfor
 " ## end of OPAM user-setup addition for vim / base ## keep this line
 " ## added by OPAM user-setup for vim / ocp-indent ## 8181bb42c3c9dc07bae8138f338a1155 ## you can edit, but keep this line
 if count(s:opam_available_tools,"ocp-indent") == 0
-  source "/home/QuinnFreedman/.opam/system/share/vim/syntax/ocp-indent.vim"
+  " TODO uncomment this: source "/home/QuinnFreedman/.opam/system/share/vim/syntax/ocp-indent.vim"
 endif
 " ## end of OPAM user-setup addition for vim / ocp-indent ## keep this line
+
+let g:javascript_plugin_jsdoc = 1
 
 syntax enable
 filetype plugin indent on
 
 inoremap jj <ESC>
+let underwater = 0
 
+if underwater
 colorscheme underwater
-highlight SignColumn guibg=#102233
-highlight ErrorMsg guibg=NONE guifg=#ff0000
-highlight Error guibg=NONE guifg=#ff0000
-highlight WarningMsg guibg=NONE guifg=#aded80
-highlight Warning guibg=NONE guifg=#aded80
-highlight Question guibg=NONE guifg=SeaGreen
-highlight MatchParen guifg=#dfeff6 guibg=#24557A gui=none
+    highlight SignColumn guibg=#102233
+    highlight ErrorMsg guibg=NONE guifg=#ff0000
+    highlight Error guibg=NONE guifg=#ff0000
+    highlight WarningMsg guibg=NONE guifg=#aded80
+    highlight Warning guibg=NONE guifg=#aded80
+    highlight Question guibg=NONE guifg=SeaGreen
+    highlight MatchParen guifg=#dfeff6 guibg=#24557A gui=none
+else
+    colorscheme monokai
+endif
 set guifont=Consolas\ 14
 set number
 set relativenumber 
+set t_ut=
 
 " ## hi Normal ctermbg=NONE
 ":set guioptions-=m  "remove menu bar
@@ -208,3 +207,11 @@ noremap <C-p> :CtrlPMixed<CR>
 noremap <C-b> :CtrlPBuffer<CR>
 noremap <C-B> :!make<CR>
 
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
