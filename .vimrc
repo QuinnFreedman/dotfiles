@@ -1,3 +1,8 @@
+augroup reload_vimrc " {
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END " }
+
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -6,8 +11,12 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'kien/ctrlp.vim'
+" Plugin 'powerline/powerline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-scripts/vim-auto-save'
 
 Plugin 'pangloss/vim-javascript'
+Plugin 'Raimondi/delimitMate'
 Plugin 'mxw/vim-jsx'
 Plugin 'leshill/vim-json'
 Plugin 'w0rp/ale'
@@ -17,6 +26,8 @@ Plugin 'scrooloose/nerdcommenter'
 
 call vundle#end()
 filetype plugin indent on
+
+let g:vundle_default_git_proto = 'git' 
 
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
@@ -29,6 +40,20 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 
 nnoremap ; <Plug>NERDComInvertComment
+
+set laststatus=2
+let g:airline_detect_whitespace=0
+set t_Co=256
+let g:airline_powerline_fonts = 1
+set encoding=utf-8
+let g:airline_left_sep = '⮀'
+let g:airline_left_alt_sep = '⮁'
+let g:airline_right_sep = '⮂'
+let g:airline_right_alt_sep = '⮃'
+let g:airline_branch_prefix = '⭠'
+let g:airline_readonly_symbol = '⭤'
+" let g:airline_linecolumn_prefix = '⭡'
+let g:airline_linecolumn_prefix = '$'
 
 " sensible.vim - Defaults everyone can agree on
 " Maintainer:   Tim Pope <http://tpo.pe/>
