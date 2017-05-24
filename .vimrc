@@ -1,7 +1,34 @@
-" Specify a directory for plugins 
-call plug#begin('~/.vim/plugged')
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-call plug#end()
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'kien/ctrlp.vim'
+
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'leshill/vim-json'
+Plugin 'w0rp/ale'
+Bundle 'moll/vim-node'
+
+Plugin 'scrooloose/nerdcommenter'
+
+call vundle#end()
+filetype plugin indent on
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+" Align line-wise comment delimiters flush left instead of following code
+" indentation
+let g:NERDDefaultAlign = 'left'
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+nnoremap ; <Plug>NERDComInvertComment
 
 " sensible.vim - Defaults everyone can agree on
 " Maintainer:   Tim Pope <http://tpo.pe/>
@@ -11,13 +38,6 @@ if &compatible
   finish
 else
   let g:loaded_sensible = 1
-endif
-
-if has('autocmd')
-  filetype plugin indent on
-endif
-if has('syntax') && !exists('g:syntax_on')
-  syntax enable
 endif
 
 " Use :help 'option' to see the documentation for the given option.
@@ -130,7 +150,7 @@ endfor
 " ## end of OPAM user-setup addition for vim / base ## keep this line
 " ## added by OPAM user-setup for vim / ocp-indent ## 8181bb42c3c9dc07bae8138f338a1155 ## you can edit, but keep this line
 if count(s:opam_available_tools,"ocp-indent") == 0
-  " TODO uncomment this: source "/home/QuinnFreedman/.opam/system/share/vim/syntax/ocp-indent.vim"
+  source "/home/QuinnFreedman/.opam/system/share/vim/syntax/ocp-indent.vim"
 endif
 " ## end of OPAM user-setup addition for vim / ocp-indent ## keep this line
 
@@ -153,11 +173,18 @@ colorscheme underwater
     highlight MatchParen guifg=#dfeff6 guibg=#24557A gui=none
 else
     colorscheme monokai
+    hi CursorLine cterm=NONE ctermbg=16 ctermfg=none 
+    set cursorline
 endif
 set guifont=Consolas\ 14
 set number
 set relativenumber 
 set t_ut=
+let &t_ti.="\e[1 q"
+let &t_SI.="\e[6 q"
+let &t_SR.="\e[4 q"
+let &t_EI.="\e[2 q"
+let &t_te.="\e[0 q"
 
 " ## hi Normal ctermbg=NONE
 ":set guioptions-=m  "remove menu bar
@@ -172,31 +199,31 @@ execute pathogen#infect()
 nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
 
 " ## syntastic config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-function! ShowLocListOrNext()
-    if empty(filter(tabpagebuflist(), 'getbufvar(v:val, "&buftype") is# "quickfix"'))
-         " No location/quickfix list shown, open syntastic error location panel
-         Errors
-	 lfirst
-    else
-        lne
-    endif
-endfunction
-
-nnoremap <silent> <C-]> :call ShowLocListOrNext()<CR>
-nnoremap <silent> <C-[> :lp<CR>
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" 
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 2
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" 
+" function! ShowLocListOrNext()
+"     if empty(filter(tabpagebuflist(), 'getbufvar(v:val, "&buftype") is# "quickfix"'))
+"          " No location/quickfix list shown, open syntastic error location panel
+"          Errors
+"      lfirst
+"     else
+"         lne
+"     endif
+" endfunction
+" 
+" nnoremap <silent> <C-]> :call ShowLocListOrNext()<CR>
+" nnoremap <silent> <C-[> :lp<CR>
 
 let g:syntastic_ocaml_checkers = ['merlin']
 
-inoremap <Tab> <C-x><C-o>
+" inoremap <Tab> <C-x><C-o>
 " inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " ## inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
