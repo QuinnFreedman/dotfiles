@@ -9,8 +9,8 @@
              '("ELPA" . "http://tromey.com/elpa/"))
 (add-to-list 'package-archives
              '("gnu" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives
+;;              '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives
@@ -77,7 +77,7 @@
  '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (markdown-mode flycheck-ocaml ocp-indent merlin tuareg auto-complete)))
+    (auto-complete)))
  '(require-final-newline t)
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
@@ -102,54 +102,9 @@
                           (format-current-buffer)))
 
 
-(ac-config-default)
 (global-auto-complete-mode t)
 (global-set-key (kbd "TAB") 'auto-complete)
 
-(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share"))))
-      (opam-bin   (ignore-errors (car (process-lines "opam" "config" "var" "bin")))))
-  (when (and opam-share opam-bin (file-directory-p opam-share) (file-directory-p opam-bin))
-
-    (setq exec-path (append exec-path (list "/usr/local/bin")))
-    (setq exec-path (append exec-path (list opam-bin)))
-    (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
-
-    (require 'ocp-indent)
-    (setq ocp-indent-path (expand-file-name "ocp-indent" opam-bin))
-    (setq ocp-indent-config "strict_with=always,match_clause=4,strict_else=never")
-
-    (require 'merlin)
-    ;; (setq merlin-command "/home/QuinnFreedman/.opam/4.04.0+mingw64c/bin/ocamlmerlin.exe")
-
-    (autoload 'merlin-mode "merlin" nil t nil)
-    (add-hook 'tuareg-mode-hook 'merlin-mode t)
-    (add-hook 'caml-mode-hook 'merlin-mode t)
-    (setq merlin-report-warnings t)
-
-    (with-eval-after-load 'merlin
-      (setq merlin-command 'opam))
-
-    (add-to-list 'load-path "~/.elisp/tuareg-mode")
-    (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
-    (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
-    ;; (autoload 'tuareg-imenu-set-imenu "tuareg-imenu"
-    ;; "Configuration of imenu for tuareg" t)
-
-    ;; (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
-    (setq auto-mode-alist
-          (append '(("\\.ml[ily]?$" . tuareg-mode)
-                    ("\\.topml$" . tuareg-mode))
-                  auto-mode-alist))
-
-    (require 'flycheck-ocaml)
-    (with-eval-after-load 'merlin
-      ;; Disable Merlin's own error checking
-      (setq merlin-error-after-save nil)
-      (flycheck-ocaml-setup))
-
-    (autoload 'flycheck-mode "flycheck")
-
-    ))
 
 ;; ANSI color in compilation buffer
 (require 'ansi-color)
@@ -165,27 +120,15 @@
 (defun prev-match () (interactive nil) (next-match -1))
 (global-set-key [(shift f3)] 'prev-match)
 ;;(global-set-key [backtab] 'auto-complete)
-;; OCaml figuration
-;;  - better error and backtrace matching
-
-(defun set-ocaml-error-regexp ()
-  (set
-   'compilation-error-regexp-alist
-   (list '("[Ff]ile \\(\"\\(.*?\\)\", line \\(-?[0-9]+\\)\\(, characters \\(-?[0-9]+\\)-\\([0-9]+\\)\\)?\\)\\(:\n\\(\\(Warning .*?\\)\\|\\(Error\\)\\):\\)?"
-           2 3 (5 . 6) (9 . 11) 1 (8 compilation-message-face)))))
-
-(add-hook 'tuareg-mode-hook 'set-ocaml-error-regexp)
-(add-hook 'caml-mode-hook 'set-ocaml-error-regexp)
-;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
-;; ## end of OPAM user-setup addition for emacs / base ## keep this line
 
 (global-set-key (kbd "C-b")
                 (lambda ()
                   (interactive)
                   (shell-command "make")))
 
-(setq merlin-use-auto-complete-mode t)
+(require 'evil)
+(evil-mode 1)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
