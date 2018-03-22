@@ -119,7 +119,7 @@
 (global-set-key [f3] 'next-match)
 (defun prev-match () (interactive nil) (next-match -1))
 (global-set-key [(shift f3)] 'prev-match)
-;;(global-set-key [backtab] 'auto-complete)
+(global-set-key [backtab] 'auto-complete)
 
 (global-set-key (kbd "C-b")
                 (lambda ()
