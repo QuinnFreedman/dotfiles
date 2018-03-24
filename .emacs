@@ -90,7 +90,7 @@
  '(next-line-add-newlines nil)
  '(package-selected-packages
    (quote
-    (key-chords use-package-chords racer flx-ido helm-projectile projectile fiplr exec-path-from-shell flycheck-rust rustfmt rust-mode use-package auto-complete)))
+    (key-chords evil-mc racer flx-ido helm-projectile projectile fiplr exec-path-from-shell flycheck-rust rustfmt rust-mode use-package auto-complete)))
  '(require-final-newline t)
  '(sentence-end-double-space nil)
  '(show-paren-mode t)
@@ -120,14 +120,8 @@
 (defun prev-match () (interactive nil) (next-match -1))
 (global-set-key [(shift f3)] 'prev-match)
 (global-set-key (kbd "C-`") 'eshell)
-;; (defun set-inactive-mark ()
-;;   (interactive)
-;;   (set-mark-command)
-;;   (deactivate-mark))
-
-;;TODO
-;(global-set-key (kbd "C-j") 'set-inactive-mark)
-;(global-set-key (kbd "C-k") 'pop-global-mark)
+(global-set-key (kbd "C-k") (lambda () (interactive) (pop-bookmark)))
+(global-set-key (kbd "C-i") (lambda () (interactive) (push-bookmark)))
 
 (global-set-key (kbd "C-b")
                 (lambda ()
@@ -148,7 +142,9 @@
   :ensure t
   :config
   (evil-mode 1)
-  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "jj" (lambda () (interactive)
+                                                 (when (not evil-mc-cursor-list)
+                                                   (evil-normal-state))))
   (defun delete-selection-and-paste ()
     (interactive)
     (delete-region (region-beginning) (region-end))
@@ -171,7 +167,34 @@
   (define-key evil-normal-state-map (kbd "c") 'evil-change-no-yank)
   (define-key evil-visual-state-map (kbd "c") 'evil-change-no-yank)
   (define-key evil-visual-state-map (kbd "S") 'evil-change-whole-line-no-yank)
+  ;; (define-key evil-insert-state-map (kbd "jj") 'evil-normal-state)
+  (eval-after-load "evil-maps"
+    (dolist (map '(evil-normal-state-map
+                   evil-visual-state-map
+                   evil-replace-state-map))
+      (define-key (eval map) "\C-i" 'push-bookmark))) ;; TODO: hack. I
+
   (modify-syntax-entry ?_ "w"))
+
+(use-package evil-mc
+  :ensure t
+  :after evil
+  :config
+  (global-evil-mc-mode 1)
+  (define-key evil-normal-state-map (kbd "C-d") 'evil-mc-make-and-goto-next-match)
+  (define-key evil-visual-state-map (kbd "C-d") 'evil-mc-make-and-goto-next-match)
+  (define-key evil-normal-state-map (kbd "C-l") 'evil-mc-undo-all-cursors)
+  (define-key evil-visual-state-map (kbd "C-l") 'evil-mc-undo-all-cursors)
+  ;; (push 'evil-escape-mode evil-mc-incompatible-minor-modes)
+  )
+
+;; (use-package evil-multiedit
+;;   :ensure t
+;;   :after evil
+;;   :config
+;;   (define-key evil-normal-state-map (kbd "M-d") 'evil-multiedit-match-and-next)
+;;   (define-key evil-visual-state-map (kbd "M-d") 'evil-multiedit-and-next)
+;;   )
 
 (use-package whitespace
   :ensure t
@@ -205,7 +228,7 @@
   :ensure
   :init (flx-ido-mode)
   :bind (("C-SPC" . find-file)))
-  ;; :config ((setq ido-enable-flex-matching t)))
+;; :config ((setq ido-enable-flex-matching t)))
 
 ;; (use-package auto-complete
 ;;   :ensure
@@ -240,6 +263,23 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(setq bookmark-stack '())
+(defun push-bookmark ()
+  (interactive)
+  (when buffer-file-name
+    (let ((b (list buffer-file-name (point))))
+      (setq bookmark-stack (cons b bookmark-stack))
+      (prin1 b)
+      )))
+
+(defun pop-bookmark ()
+  (interactive)
+  (when bookmark-stack
+    (let ((b (pop bookmark-stack)))
+      (prin1 b)
+      (find-file (elt b 0))
+      (goto-char (elt b 1)))))
 
 (provide '.emacs)
 ;;; .emacs ends here
