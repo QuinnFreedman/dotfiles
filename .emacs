@@ -120,13 +120,6 @@
 (defun prev-match () (interactive nil) (next-match -1))
 (global-set-key [(shift f3)] 'prev-match)
 (global-set-key (kbd "C-`") 'eshell)
-(global-set-key (kbd "C-k") (lambda () (interactive) (pop-bookmark)))
-(global-set-key (kbd "C-i") (lambda () (interactive) (push-bookmark)))
-
-(global-set-key (kbd "C-b")
-                (lambda ()
-                  (interactive)
-                  (shell-command "make")))
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Package Settings
@@ -167,12 +160,10 @@
   (define-key evil-normal-state-map (kbd "c") 'evil-change-no-yank)
   (define-key evil-visual-state-map (kbd "c") 'evil-change-no-yank)
   (define-key evil-visual-state-map (kbd "S") 'evil-change-whole-line-no-yank)
-  ;; (define-key evil-insert-state-map (kbd "jj") 'evil-normal-state)
-  (eval-after-load "evil-maps"
-    (dolist (map '(evil-normal-state-map
-                   evil-visual-state-map
-                   evil-replace-state-map))
-      (define-key (eval map) "\C-i" 'push-bookmark))) ;; TODO: hack. I
+  (define-key evil-normal-state-map (kbd "m") 'push-bookmark)
+  (define-key evil-visual-state-map (kbd "m") 'push-bookmark)
+  (define-key evil-normal-state-map (kbd "C-k") 'pop-bookmark)
+  (define-key evil-normal-state-map (kbd "'") 'pop-bookmark)
 
   (modify-syntax-entry ?_ "w"))
 
@@ -185,7 +176,6 @@
   (define-key evil-visual-state-map (kbd "C-d") 'evil-mc-make-and-goto-next-match)
   (define-key evil-normal-state-map (kbd "C-l") 'evil-mc-undo-all-cursors)
   (define-key evil-visual-state-map (kbd "C-l") 'evil-mc-undo-all-cursors)
-  ;; (push 'evil-escape-mode evil-mc-incompatible-minor-modes)
   )
 
 ;; (use-package evil-multiedit
