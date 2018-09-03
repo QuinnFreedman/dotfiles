@@ -1,0 +1,147 @@
+{
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.fontFamily": "Operator Mono Lig",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 18,
+  "workbench.colorTheme": "Kimbie Dark",
+  "editor.formatOnSave": true,
+  "editor.minimap.enabled": false,
+  // "editor.hover": false,
+  // "files.autoSave": "afterDelay",
+  "vim.easymotion": true,
+  "vim.sneak": false,
+  "vim.incsearch": true,
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["k", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<Esc>"],
+      "commands": [":nohl"]
+    },
+    {
+      "before": ["<leader>", "f"],
+      "after": ["<leader>", "<leader>", "<leader>", "j"]
+    },
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showHover"]
+    },
+    {
+      "before": ["<leader>", "l"],
+      "commands": ["workbench.action.navigateRight"]
+    },
+    {
+      "before": ["<leader>", "h"],
+      "commands": ["workbench.action.navigateLeft"]
+    },
+    {
+      "before": ["<leader>", "k"],
+      "commands": ["workbench.action.navigateUp"]
+    },
+    {
+      "before": ["<leader>", "j"],
+      "commands": ["workbench.action.navigateDown"]
+    },
+    {
+      "before": ["<leader>", "v"],
+      "commands": ["workbench.action.splitEditor"]
+    },
+    {
+      "before": ["<leader>", "q"],
+      "commands": ["workbench.action.closeActiveEditor"]
+    },
+    {
+      "before": ["g", "n"],
+      "commands": ["editor.action.marker.nextInFiles"]
+    },
+    {
+      "before": ["g", "N"],
+      "commands": ["editor.action.marker.prevInFiles"]
+    }
+  ],
+  "vim.leader": "<space>",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-f>": false
+  },
+  // "vim.easymotionMarkerYOffset": -5,
+  // "vim.easymotionMarkerHeight": 18,
+  // "vim.easymotionMarkerWidthPerChar": 10,
+  // "vim.easymotionMarkerBackgroundColor": "gray",
+  // "vim.easymotionMarkerFontSize": "editor.fontsize",
+  // "vim.easymotionMarkerFontFamily": "Operator Mono Lig",
+  "workbench.colorCustomizations": {
+    "[Kimbie Dark]": {
+      "panel.background": "#161616",
+      "sideBar.background": "#1a1a1a",
+      "editor.background": "#161616",
+      "activityBar.background": "#1a1a1a",
+      "editor.lineHighlightBackground": "#111",
+      // "editorIndentGuide.activeBackground": "#484848",
+      "editorIndentGuide.background": "#484848",
+      "editorCursor.foreground": "#8ab1b0",
+      "editorCursor.background": "#161616"
+    }
+  },
+  "editor.tokenColorCustomizations": {
+    "[Kimbie Dark]": {
+      "textMateRules": [
+        {
+          "scope": [
+            "punctuation.definition.string.begin",
+            "punctuation.definition.string.end"
+          ],
+          "settings": {
+            "foreground": "#889b4a"
+          }
+        },
+        {
+          "scope": ["comment", "punctuation.definition.comment"],
+          "settings": {
+            "foreground": "#484848",
+            "fontStyle": "italic"
+          }
+        },
+        {
+          "scope": "variable",
+          "settings": {
+            "foreground": "#d3af86"
+          }
+        },
+        {
+          "scope": [
+            "entity.name.function",
+            "meta.require",
+            "support.function.any-method"
+          ],
+          "settings": {
+            "foreground": "#98676a"
+          }
+        },
+        {
+          "scope": [
+            "keyword",
+            "keyword.control",
+            // "keyword.operator",
+            "storage"
+          ],
+          "settings": {
+            "foreground": "#8ab1b0"
+          }
+        }
+      ]
+    }
+  },
+  "window.zoomLevel": 0,
+  "python.linting.pylintEnabled": true,
+  "python.linting.mypyEnabled": true,
+  "python.linting.mypyPath": "/usr/local/bin/mypy",
+  "python.formatting.autopep8Path": "/usr/local/bin/autopep8"
+}
