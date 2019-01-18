@@ -1,0 +1,5 @@
+LSP
+Material Theme
+NeoVintageous
+Origami
+Package Control
