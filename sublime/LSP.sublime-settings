@@ -1,0 +1,11 @@
+{
+	"clients":
+	{
+		"pyls":
+		{
+			"enabled": true,
+	        // "command": ["/Users/quinnfreedman/.local/share/virtualenvs/vs-playground-Gw9roTy3/bin/python", "-m", "pyls"],
+		}
+	},
+    "auto_show_diagnostics_panel_level": 1,
+}
